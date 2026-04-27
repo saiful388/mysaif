@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MyStore | Home</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <nav>
+        <a href="index.html" class="logo">MyStore</a>
+        <div>
+            <a href="cart.html">Cart</a>
+            <a href="#" onclick="logout()">Logout</a>
+        </div>
+    </nav>
+
+    <div class="container">
+        <h1>আমাদের প্রোডাক্টস</h1>
+        <hr><br>
+        <div id="product-grid" class="product-grid">
+            <!-- প্রোডাক্টগুলো এখানে আসবে -->
+        </div>
+    </div>
+
+    <!-- নিচে এই স্ক্রিপ্টগুলো খুব গুরুত্বপূর্ণ -->
+    <script src="auth.js"></script>
+    
+    <script>
+        // প্রোডাক্ট লিস্ট
+        const products = [
+            { id: 1, name: "স্মার্ট ওয়াচ", price: 2500, img: "https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=500" },
+            { id: 2, name: "হেডফোন", price: 1500, img: "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=500" },
+            { id: 3, name: "স্মার্ট ফোন", price: 25000, img: "https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?w=500" },
+            { id: 4, name: "গেমিং মাউস", price: 800, img: "https://images.unsplash.com/photo-1527443224154-c4a3942d3acf?w=500" },
+            { id: 5, name: "চামড়ার ব্যাগ", price: 3200, img: "https://images.unsplash.com/photo-1548036328-c9fa89d128fa?w=500" },
+            { id: 6, name: "জুতো", price: 1800, img: "https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=500" }
+        ];
+
+        let cart = JSON.parse(localStorage.getItem('cart')) || [];
+
+        function displayProducts() {
+            const grid = document.getElementById('product-grid');
+            if (grid) {
+                grid.innerHTML = products.map(p => `
+                    <div class="card">
+                        <img src="${p.img}" style="width:100%; height:150px; object-fit:cover;">
+                        <h3>${p.name}</h3>
+                        <p class="price">৳${p.price}</p>
+                        <button class="btn" onclick="addToCart(${p.id})">Add to Cart</button>
+                    </div>
+                `).join('');
+            }
+        }
+
+        function addToCart(id) {
+            const product = products.find(p => p.id === id);
+            cart.push(product);
+            localStorage.setItem('cart', JSON.stringify(cart));
+            alert(product.name + " কার্টে যোগ হয়েছে!");
+        }
+
+        // পেজ লোড হলে প্রোডাক্ট দেখাবে
+        window.onload = displayProducts;
+    </script>
+</body>
+</html>

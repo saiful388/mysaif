@@ -1,0 +1,12 @@
+:root { --p-color: #2563eb; --dark: #1e293b; --bg: #f8fafc; }
+* { margin: 0; padding: 0; box-sizing: border-box; font-family: sans-serif; }
+body { background: var(--bg); }
+nav { background: var(--dark); color: white; padding: 15px; display: flex; justify-content: space-between; align-items: center; }
+nav a { color: white; text-decoration: none; margin-left: 15px; }
+.container { padding: 20px; }
+.product-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 15px; }
+.card { background: white; padding: 10px; border-radius: 8px; text-align: center; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
+.card img { width: 100%; height: 120px; object-fit: cover; }
+.btn { background: var(--p-color); color: white; border: none; padding: 8px; width: 100%; border-radius: 5px; margin-top: 10px; cursor: pointer; }
+.auth-form { max-width: 300px; margin: 50px auto; background: white; padding: 20px; border-radius: 8px; }
+.auth-form input { width: 100%; margin: 10px 0; padding: 10px; border: 1px solid #ccc; }

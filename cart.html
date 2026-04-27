@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <link rel="stylesheet" href="style.css">
+    <title>আপনার কার্ট</title>
+</head>
+<body>
+    <nav>
+        <a href="index.html" class="logo">MyStore</a>
+        <a href="index.html">Home</a>
+    </nav>
+
+    <div class="container">
+        <h2>আপনার পছন্দের প্রোডাক্টস</h2>
+        <hr><br>
+        <div id="cart-items">
+            <!-- এখানে কার্টের প্রোডাক্ট দেখাবে -->
+        </div>
+        <div style="margin-top:20px; background:white; padding:20px; border-radius:10px;">
+            <h3>মোট দাম: ৳<span id="total-price">0</span></h3>
+            <br>
+            <a href="checkout.html" class="btn" style="text-decoration:none; display:block; text-align:center;">অর্ডার করতে এগিয়ে যান</a>
+        </div>
+    </div>
+
+    <script>
+        // কার্ট থেকে ডাটা নেওয়া
+        let cart = JSON.parse(localStorage.getItem('cart')) || [];
+
+        function displayCart() {
+            const cartList = document.getElementById('cart-items');
+            const totalEl = document.getElementById('total-price');
+            
+            if (cart.length === 0) {
+                cartList.innerHTML = "<p>আপনার কার্ট এখন খালি।</p>";
+                totalEl.innerText = "0";
+                return;
+            }
+
+            let total = 0;
+            cartList.innerHTML = cart.map((item, index) => {
+                total += item.price;
+                return `
+                    <div style="background:white; padding:15px; margin-bottom:10px; border-radius:8px; display:flex; justify-content:space-between; align-items:center; box-shadow:0 2px 5px rgba(0,0,0,0.1);">
+                        <div>
+                            <h4 style="margin:0;">${item.name}</h4>
+                            <p style="margin:0; color:#2563eb;">৳${item.price}</p>
+                        </div>
+                        <button onclick="removeFromCart(${index})" style="background:#ef4444; color:white; border:none; padding:8px 12px; border-radius:5px; cursor:pointer;">মুছে ফেলুন</button>
+                    </div>
+                `;
+            }).join('');
+            totalEl.innerText = total;
+        }
+
+        function removeFromCart(index) {
+            cart.splice(index, 1);
+            localStorage.setItem('cart', JSON.stringify(cart));
+            displayCart();
+        }
+
+        // পেজ লোড হলে কার্ট দেখাবে
+        window.onload = displayCart;
+    </script>
+</body>
+</html>

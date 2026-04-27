@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <link rel="stylesheet" href="style.css">
+    <title>Checkout</title>
+</head>
+<body>
+    <nav>
+        <a href="index.html" class="logo">MyStore</a>
+        <a href="cart.html">Back to Cart</a>
+    </nav>
+
+    <div class="container">
+        <div class="auth-form">
+            <h2>অর্ডার কনফার্ম করুন</h2>
+            <form onsubmit="sendOrder(event)">
+                <input type="text" id="cus_name" placeholder="আপনার নাম" required>
+                <input type="text" id="cus_phone" placeholder="মোবাইল নম্বর" required>
+                <input type="text" id="cus_address" placeholder="পুরো ঠিকানা" required>
+                <select id="payment_method" required>
+                    <option value="">পেমেন্ট পদ্ধতি</option>
+                    <option value="Cash on Delivery">Cash on Delivery</option>
+                    <option value="bKash">bKash</option>
+                </select>
+                <button type="submit" class="btn">হোয়াটসঅ্যাপে অর্ডার দিন</button>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        function sendOrder(e) {
+            e.preventDefault();
+            
+            let cart = JSON.parse(localStorage.getItem('cart')) || [];
+            if(cart.length === 0) {
+                alert("কার্ট খালি!");
+                window.location.href = "index.html";
+                return;
+            }
+
+            const name = document.getElementById('cus_name').value;
+            const phone = document.getElementById('cus_phone').value;
+            const address = document.getElementById('cus_address').value;
+            const payment = document.getElementById('payment_method').value;
+
+            let productList = "";
+            let total = 0;
+            cart.forEach((item, i) => {
+                productList += (i+1) + ". " + item.name + " (৳" + item.price + ")%0A";
+                total += item.price;
+            });
+
+            // আপনার হোয়াটসঅ্যাপ নম্বর (এখানে ৮৮ সহ সঠিক নম্বর দিন)
+            const myNumber = "8801317515963"; 
+
+            const text = "*নতুন অর্ডার এসেছে!*%0A%0A" + 
+                         "*নাম:* " + name + "%0A" +
+                         "*ফোন:* " + phone + "%0A" +
+                         "*ঠিকানা:* " + address + "%0A" +
+                         "*পেমেন্ট:* " + payment + "%0A%0A" +
+                         "*প্রোডাক্টস:*%0A" + productList + "%0A" +
+                         "*মোট দাম:* ৳" + total;
+
+            const whatsappUrl = "https://api.whatsapp.com/send?phone=" + myNumber + "&text=" + text;
+            
+            window.location.href = whatsappUrl;
+            localStorage.removeItem('cart'); // অর্ডার শেষে কার্ট খালি করা
+        }
+    </script>
+</body>
+</html>
